@@ -17,11 +17,12 @@ jobs:
 
       - name: Start backend
         run: |
-          ./mvnw spring-boot:run &
-          sleep 20
+          ./gradlew bootRun &
+          sleep 25
 
       - name: Run Bruno tests
         run: |
+          cd bruno
           bru run bruno \
             --env environments/todo-dev-env.json \
             --reporter-json ci-report.json \
