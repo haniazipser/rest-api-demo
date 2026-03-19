@@ -1,0 +1,31 @@
+name: Bruno Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  run-bruno-tests:
+    runs-on: ubuntu-latest
+    steps:
+      # 1️⃣ Checkout kodu
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install Bruno CLI
+        run: |
+          npm install -g @bruno/cli
+
+      - name: Run all Bruno endpoints
+        run: |
+          for file in bruno/*.bru; do
+            echo "Running $file"
+            bru run "$file" --env environments/dev.json --reporter spec
+          done
