@@ -27,6 +27,4 @@ jobs:
         run: |
           cd bruno
           bru run bruno \
-            --env environments/todo-dev-env.json \
-            --reporter-json ci-report.json \
             --bail
