@@ -25,6 +25,6 @@ jobs:
 
       - name: Run Bruno tests
         run: |
-          cd bruno
           bru run bruno \
+            --env environments/todo-dev-env \
             --bail
