@@ -27,5 +27,5 @@ jobs:
         run: |
           cd bruno
           bru run bruno \
-            --env environments/todo-dev-env \
+            --env todo-dev-env \
             --bail
