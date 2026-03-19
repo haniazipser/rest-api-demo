@@ -18,10 +18,14 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x gradlew
 
-      - name: Start backend
+      - name: Start backend + wait
         run: |
           ./gradlew bootRun &
-          sleep 25
+          for i in {1..30}; do
+            status=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8080/api/todos || echo 0)
+            if [ "$status" = "200" ]; then break; fi
+            sleep 2
+          done
 
       - name: Run Bruno tests
         run: |
