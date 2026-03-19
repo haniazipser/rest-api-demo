@@ -7,17 +7,22 @@ on:
   pull_request:
 
 jobs:
-  run-bruno-tests:
+  api-test:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20'
+      - name: Install Bruno CLI
+        run: npm install -g @usebruno/cli
+
+      - name: Start backend
+        run: |
+          ./mvnw spring-boot:run &
+          sleep 20
 
       - name: Run Bruno tests
         run: |
-          npx bru run bruno --env environments/todo-dev-env.json --reporter spec
+          bru run bruno \
+            --env environments/todo-dev-env.json \
+            --reporter-json ci-report.json \
+            --bail
