@@ -20,7 +20,7 @@ jobs:
 
       - name: Run Bruno tests
         run: |
-          for file in btun/*.bru; do
+          for file in bruno/*.bru; do
             echo "Running $file"
             npx bru run "$file" --env environments/dev.json --reporter spec
           done
