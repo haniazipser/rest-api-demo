@@ -1,0 +1,47 @@
+meta {
+  name: Create TODO item
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{base_url}}/api/todos
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "description": "Przygotować demo na prezentację"
+  }
+}
+
+script:post-response {
+  if (res.status === 201) {
+      bru.setEnvVar("to_do_id", res.body.id);
+      console.log("Saved todoId:", res.body.id);
+  }
+}
+
+tests {
+  test("status is 201", function() {
+    expect(res.status).to.equal(201);
+  });
+  
+  test("has id", function() {
+    expect(res.body.id).to.be.a("number");
+  });
+  
+  test("completed is false by default", function() {
+    expect(res.body.completed).to.equal(false);
+  });
+  
+  test("description matches", function() {
+    expect(res.body.description).to.equal("Przygotować demo na prezentację");
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

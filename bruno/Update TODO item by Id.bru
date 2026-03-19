@@ -1,0 +1,38 @@
+meta {
+  name: Update TODO item by Id
+  type: http
+  seq: 4
+}
+
+patch {
+  url: {{base_url}}/api/todos/{{to_do_id}}
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "description": "Przygotować demo na prezentację",
+      "completed": true
+  }
+}
+
+tests {
+  test("status is 200", function() {
+    expect(res.status).to.equal(200);
+  });
+  
+  
+  test("completed matches", function() {
+    expect(res.body.completed).to.equal(req.body.completed);
+  });
+  
+  test("description matches", function() {
+    expect(res.body.description).to.equal(req.body.description);
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

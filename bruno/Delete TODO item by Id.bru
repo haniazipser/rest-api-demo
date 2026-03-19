@@ -1,0 +1,23 @@
+meta {
+  name: Delete TODO item by Id
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{base_url}}/api/todos/{{to_do_id}}
+  body: none
+  auth: inherit
+}
+
+tests {
+  test("status is 204", function() {
+    expect(res.status).to.equal(204);
+  });
+  
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
